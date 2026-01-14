@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">MyBank</a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/create-account">➕ Create Account</a></li>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">🏦 Dashboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Dashboard Container -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🏦 Banking Dashboard</h2>
+
+    <!-- Accounts Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Balance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through accounts -->
+                <tr th:each="acc : ${accounts}">
+                    <td th:text="${acc.id}"></td>
+                    <td th:text="${acc.name}"></td>
+                    <td th:text="${acc.email}"></td>
+                    <td th:text="${acc.balance}"></td>
+                    <td>
+                        <!-- Deposit Form -->
+                        <form th:action="@{/deposit}" method="post" class="d-inline">
+                            <input type="hidden" name="id" th:value="${acc.id}">
+                            <input type="number" name="amount" class="form-control mb-1" placeholder="Deposit" style="width:120px; display:inline-block;">
+                            <button class="btn btn-success btn-sm"><i class="fa-solid fa-plus"></i></button>
+                        </form>
+
+                        <!-- Withdraw Form -->
+                        <form th:action="@{/withdraw}" method="post" class="d-inline">
+                            <input type="hidden" name="id" th:value="${acc.id}">
+                            <input type="number" name="amount" class="form-control mb-1" placeholder="Withdraw" style="width:120px; display:inline-block;">
+                            <button class="btn btn-danger btn-sm"><i class="fa-solid fa-minus"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
